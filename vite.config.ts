@@ -1,6 +1,6 @@
-import { defineConfig } from "vitest/config"
-import react from "@vitejs/plugin-react"
-import sass from "sass"
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+import sass from 'sass';
 
 export default defineConfig({
   plugins: [react()],
@@ -15,13 +15,13 @@ export default defineConfig({
     open: true,
   },
   build: {
-    outDir: "build",
+    outDir: 'build',
     sourcemap: true,
   },
   test: {
     globals: true,
-    environment: "jsdom",
-    setupFiles: "src/setupTests",
+    environment: 'jsdom',
+    setupFiles: 'src/setupTests',
     mockReset: true,
   },
-})
+});

@@ -8,13 +8,11 @@ import CalculatorPage from '../pages/CalculatorPage/CalculatorPage';
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <App />
-    ),
+    element: <App />,
     children: [
       { path: '/', element: <HomePage /> },
       { path: '/items', element: <ItemsPage /> },
-      { path: '/calculator', element: <CalculatorPage />},
+      { path: '/calculator', element: <CalculatorPage /> },
       { path: '*', element: <WrongRouteMsg /> },
     ],
   },

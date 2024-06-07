@@ -1,4 +1,4 @@
-@import "../../utils/_variables.scss";
+@import '../../utils/_variables.scss';
 
 .running {
   --color: white;
@@ -22,7 +22,7 @@
       transform: rotate(32deg);
       animation: body var(--duration) linear infinite;
       &:before {
-        content: "";
+        content: '';
         width: 8px;
         height: 8px;
         border-radius: 4px;
@@ -35,7 +35,7 @@
       .arm:before,
       .leg,
       .leg:before {
-        content: "";
+        content: '';
         width: var(--w, 11px);
         height: 4px;
         top: var(--t, 0);
@@ -94,7 +94,7 @@
             --r-to: 18deg;
           }
           &:after {
-            content: "";
+            content: '';
             top: 0;
             right: 0;
             height: 4px;

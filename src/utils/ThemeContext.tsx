@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 import { ThemeType } from './types';
 import cn from 'classnames';
 import { useMediaQuery } from 'react-responsive';
@@ -8,16 +14,28 @@ interface ThemeContextProps {
   toggleTheme: () => void;
 }
 
-export const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextProps | undefined>(
+  undefined
+);
 
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const preferredColorScheme = useMediaQuery({ query: '(prefers-color-scheme: dark)' }) ? 'dark' : 'light';
-  const storedPreference = ['dark', 'light'].includes(localStorage.getItem('theme') ?? '') ? localStorage.getItem('theme') as ThemeType : undefined;
-  const [theme, setTheme] = useState<ThemeType>(storedPreference || preferredColorScheme);
+  const preferredColorScheme = useMediaQuery({
+    query: '(prefers-color-scheme: dark)',
+  })
+    ? 'dark'
+    : 'light';
+  const storedPreference = ['dark', 'light'].includes(
+    localStorage.getItem('theme') ?? ''
+  )
+    ? (localStorage.getItem('theme') as ThemeType)
+    : undefined;
+  const [theme, setTheme] = useState<ThemeType>(
+    storedPreference || preferredColorScheme
+  );
 
   const toggleTheme = () => {
     setTheme((prevTheme) => {
@@ -28,9 +46,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    setTheme((storedPreference && storedPreference !== preferredColorScheme) ? storedPreference : preferredColorScheme);
+    setTheme(
+      storedPreference && storedPreference !== preferredColorScheme
+        ? storedPreference
+        : preferredColorScheme
+    );
   }, [preferredColorScheme]);
-
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -47,4 +68,5 @@ export const useTheme = (): ThemeContextProps => {
   return context;
 };
 
-export const appendThemeClass = (className: string, theme: ThemeType) => cn(className, { 'light': theme === 'light' });
+export const appendThemeClass = (className: string, theme: ThemeType) =>
+  cn(className, { light: theme === 'light' });

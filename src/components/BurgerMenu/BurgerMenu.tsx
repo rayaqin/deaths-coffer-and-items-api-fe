@@ -17,7 +17,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ handleBurgerClicked }) => {
 
   return (
     <button
-      className={appendThemeClass("burger-menu", theme)}
+      className={appendThemeClass('burger-menu', theme)}
       onClick={handleBurgerClicked}
       onKeyUp={handleKeyUp}
     >

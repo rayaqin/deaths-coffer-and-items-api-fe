@@ -1,4 +1,4 @@
-@import "../../utils/_variables.scss";
+@import '../../utils/_variables.scss';
 
 .calculator-page-outer-shell {
   margin-top: 2rem;
@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   .inner-shell {
     border: 1px solid blue;
   }

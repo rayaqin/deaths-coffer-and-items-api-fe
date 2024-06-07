@@ -4,12 +4,10 @@ import { appendThemeClass, useTheme } from '../../utils/ThemeContext';
 
 const HomePage: React.FC = () => {
   const { theme } = useTheme();
-  
+
   return (
     <div className="home-page-outer-shell">
-      <div className="inner-shell">
-        Home
-      </div>
+      <div className="inner-shell">Home</div>
     </div>
   );
 };
