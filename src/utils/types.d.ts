@@ -1,8 +1,8 @@
-export type ThemeType = 'dark' | 'light';
+export type ThemeType = 'dark' | 'light'
 
 export type MenuOption = {
-  id: string;
-  displayText: string;
-  linksTo: string;
-  isExternal?: boolean;
-};
+  id: string
+  displayText: string
+  linksTo: string
+  isExternal?: boolean
+}

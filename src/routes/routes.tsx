@@ -1,9 +1,9 @@
-import { createBrowserRouter } from 'react-router-dom';
-import App from '../App';
-import HomePage from '../pages/HomePage/HomePage';
-import WrongRouteMsg from '../components/WrongRouteMsg/WrongRouteMsg';
-import ItemsPage from '../pages/ItemsPage/ItemsPage';
-import CalculatorPage from '../pages/CalculatorPage/CalculatorPage';
+import { createBrowserRouter } from 'react-router-dom'
+import App from '../App'
+import HomePage from '../pages/HomePage/HomePage'
+import WrongRouteMsg from '../components/WrongRouteMsg/WrongRouteMsg'
+import ItemsPage from '../pages/ItemsPage/ItemsPage'
+import CalculatorPage from '../pages/CalculatorPage/CalculatorPage'
 
 export const router = createBrowserRouter([
   {
@@ -16,4 +16,4 @@ export const router = createBrowserRouter([
       { path: '*', element: <WrongRouteMsg /> },
     ],
   },
-]);
+])

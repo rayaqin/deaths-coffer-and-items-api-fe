@@ -1,4 +1,4 @@
-import { Theme, ToastPosition } from 'react-toastify';
+import { Theme, ToastPosition } from 'react-toastify'
 
 export const toastSettings = {
   position: 'bottom-center' as ToastPosition,
@@ -10,4 +10,4 @@ export const toastSettings = {
   theme: 'dark' as Theme,
   pauseOnFocusLoss: true,
   rtl: false,
-};
+}

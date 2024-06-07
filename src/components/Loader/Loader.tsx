@@ -1,9 +1,9 @@
-import React from 'react';
-import './Loader.scss';
-import { appendThemeClass, useTheme } from '../../utils/ThemeContext';
+import React from 'react'
+import './Loader.scss'
+import { appendThemeClass, useTheme } from '../../utils/ThemeContext'
 
 const Loader: React.FC = () => {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <div data-testid="loader" className={appendThemeClass('running', theme)}>
@@ -19,11 +19,11 @@ const Loader: React.FC = () => {
         </div>
       </>
     </div>
-  );
-};
+  )
+}
 
 export const Cloud: React.FC = () => {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
   return (
     <div className={appendThemeClass('rain-cloud-box', theme)}>
       <svg className="icon icon-rainy" viewBox="0 0 220 220">
@@ -55,7 +55,7 @@ export const Cloud: React.FC = () => {
         </g>
       </svg>
     </div>
-  );
-};
+  )
+}
 
-export default Loader;
+export default Loader

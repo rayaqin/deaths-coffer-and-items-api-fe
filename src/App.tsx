@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router';
-import { Provider } from 'react-redux';
-import './utils/normalize.css';
-import './App.scss';
-import { appendThemeClass, useTheme } from './utils/ThemeContext';
-import LightToggle from './components/LightToggle/LightToggle';
-import BurgerMenu from './components/BurgerMenu/BurgerMenu';
-import MenuDrawer from './components/MenuDrawer/MenuDrawer';
+import React, { useState } from 'react'
+import { Outlet } from 'react-router'
+import { Provider } from 'react-redux'
+import './utils/normalize.css'
+import './App.scss'
+import { appendThemeClass, useTheme } from './utils/ThemeContext'
+import LightToggle from './components/LightToggle/LightToggle'
+import BurgerMenu from './components/BurgerMenu/BurgerMenu'
+import MenuDrawer from './components/MenuDrawer/MenuDrawer'
 
 const App: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme()
+  const [isDrawerOpen, setDrawerOpen] = useState(false)
 
   const handleBurgerClicked = () => {
-    setDrawerOpen(true);
-  };
+    setDrawerOpen(true)
+  }
 
   const handleDrawerClose = () => {
-    setDrawerOpen(false);
-  };
+    setDrawerOpen(false)
+  }
 
   const handleMenuOptionSelected = (id: string) => {
-    console.log(`Option ${id} selected`);
-    setDrawerOpen(false);
-  };
+    console.log(`Option ${id} selected`)
+    setDrawerOpen(false)
+  }
 
   return (
     <div className={appendThemeClass('page-outer-shell', theme)}>
@@ -56,7 +56,7 @@ const App: React.FC = () => {
       <LightToggle toggleFn={toggleTheme} />
       <Outlet />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

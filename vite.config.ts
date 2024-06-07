@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import sass from 'sass';
+import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
+import sass from 'sass'
 
 export default defineConfig({
   plugins: [react()],
@@ -24,4 +24,4 @@ export default defineConfig({
     setupFiles: 'src/setupTests',
     mockReset: true,
   },
-});
+})

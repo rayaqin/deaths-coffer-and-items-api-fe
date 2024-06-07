@@ -1,13 +1,13 @@
-import React from 'react';
-import './LightToggle.scss';
-import { useTheme } from '../../utils/ThemeContext';
+import React from 'react'
+import './LightToggle.scss'
+import { useTheme } from '../../utils/ThemeContext'
 
 interface LightToggleProps {
-  toggleFn: () => void;
+  toggleFn: () => void
 }
 
 const LightToggle: React.FC<LightToggleProps> = ({ toggleFn }) => {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
 
   return (
     <div className="light-toggle-outer-shell">
@@ -34,7 +34,7 @@ const LightToggle: React.FC<LightToggleProps> = ({ toggleFn }) => {
         </label>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LightToggle;
+export default LightToggle

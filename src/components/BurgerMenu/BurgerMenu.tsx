@@ -1,19 +1,19 @@
-import React from 'react';
-import { FiMenu } from 'react-icons/fi';
-import { useTheme, appendThemeClass } from '../../utils/ThemeContext';
-import './BurgerMenu.scss';
+import React from 'react'
+import { FiMenu } from 'react-icons/fi'
+import { useTheme, appendThemeClass } from '../../utils/ThemeContext'
+import './BurgerMenu.scss'
 
 interface BurgerMenuProps {
-  handleBurgerClicked: () => void;
+  handleBurgerClicked: () => void
 }
 
 const BurgerMenu: React.FC<BurgerMenuProps> = ({ handleBurgerClicked }) => {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
   const handleKeyUp = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === 'Enter' || event.key === 'Space') {
-      handleBurgerClicked();
+      handleBurgerClicked()
     }
-  };
+  }
 
   return (
     <button
@@ -23,7 +23,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ handleBurgerClicked }) => {
     >
       <FiMenu size={36} />
     </button>
-  );
-};
+  )
+}
 
-export default BurgerMenu;
+export default BurgerMenu
