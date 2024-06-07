@@ -1,0 +1,243 @@
+@import "../../utils/_variables.scss";
+
+.running {
+  --color: white;
+  --duration: 0.7s;
+  transform: scale(1.4);
+
+  &.light {
+    --color: #0e7c7b;
+  }
+
+  .outer {
+    padding-left: 4rem;
+    animation: outer var(--duration) linear infinite;
+    .body {
+      background: var(--color);
+      height: 15px;
+      width: 8px;
+      border-radius: 4px;
+      transform-origin: 4px 11px;
+      position: relative;
+      transform: rotate(32deg);
+      animation: body var(--duration) linear infinite;
+      &:before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        bottom: 16px;
+        left: 0;
+        position: absolute;
+        background: var(--color);
+      }
+      .arm,
+      .arm:before,
+      .leg,
+      .leg:before {
+        content: "";
+        width: var(--w, 11px);
+        height: 4px;
+        top: var(--t, 0);
+        left: var(--l, 2px);
+        border-radius: 2px;
+        transform-origin: 2px 2px;
+        position: absolute;
+        background: var(--c, var(--color));
+        transform: rotate(var(--r, 0deg));
+        animation: var(--name, arm-leg) var(--duration) linear infinite;
+      }
+      .arm {
+        &:before {
+          --l: 7px;
+          --name: arm-b;
+        }
+        &.front {
+          --r: 24deg;
+          --r-to: 164deg;
+          &:before {
+            --r: -48deg;
+            --r-to: -36deg;
+          }
+        }
+        &.behind {
+          --r: 164deg;
+          --r-to: 24deg;
+          &:before {
+            --r: -36deg;
+            --r-to: -48deg;
+          }
+        }
+      }
+      .leg {
+        --w: 12px;
+        --t: 11px;
+        &:before {
+          --t: 0;
+          --l: 8px;
+        }
+        &.front {
+          --r: 10deg;
+          --r-to: 108deg;
+          &:before {
+            --r: 18deg;
+            --r-to: 76deg;
+          }
+        }
+        &.behind {
+          --r: 108deg;
+          --r-to: 10deg;
+          --c: none;
+          &:before {
+            --c: var(--color);
+            --r: 76deg;
+            --r-to: 18deg;
+          }
+          &:after {
+            content: "";
+            top: 0;
+            right: 0;
+            height: 4px;
+            width: 6px;
+            clip-path: polygon(2px 0, 6px 0, 6px 4px, 0 4px);
+            border-radius: 0 2px 2px 0;
+            position: absolute;
+            background: var(--color);
+          }
+        }
+      }
+    }
+  }
+
+  .icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .main-cloud path {
+    fill: $color-bright-pearl;
+  }
+
+  .rain-cloud path {
+    fill: $color-bright-pearl;
+    animation: rain-cloud-color 6s ease infinite;
+  }
+
+  .rain-drops path {
+    fill: $color-soft-blue;
+    opacity: 0;
+  }
+
+  .rain-drops path:nth-child(1) {
+    animation: rain-drop 1.2s linear infinite;
+  }
+
+  .rain-drops path:nth-child(2) {
+    animation: rain-drop 1.2s linear infinite 0.4s;
+  }
+
+  .rain-drops path:nth-child(3) {
+    animation: rain-drop 1.2s linear infinite 0.8s;
+  }
+
+  .rain-cloud-box {
+    position: relative;
+    top: 2rem;
+    left: -0.5rem;
+
+    &.light {
+      .rain-cloud path {
+        fill: $color-matte-green;
+        animation: none;
+      }
+    }
+  }
+}
+
+@keyframes outer {
+  50% {
+    transform: translateY(0);
+  }
+  25%,
+  75% {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes body {
+  50% {
+    transform: rotate(16deg);
+  }
+  25%,
+  75% {
+    transform: rotate(24deg);
+  }
+}
+
+@keyframes arm-leg {
+  50% {
+    transform: rotate(var(--r-to));
+  }
+}
+
+@keyframes arm-b {
+  30%,
+  70% {
+    transform: rotate(var(--r-to));
+  }
+}
+
+@keyframes rain-cloud-color {
+  100%,
+  0% {
+    fill: $color-rain-cloud;
+  }
+  20% {
+    fill: $color-rain-cloud-dark;
+  }
+  21.5% {
+    fill: $color-rain-cloud-light;
+  }
+  25% {
+    fill: $color-rain-cloud-dark;
+  }
+  27.5% {
+    fill: $color-rain-cloud-light;
+  }
+  30% {
+    fill: $color-rain-cloud-dark;
+  }
+  40% {
+    fill: $color-rain-cloud-light;
+  }
+  90% {
+    fill: $color-rain-cloud-dark;
+  }
+}
+
+@keyframes rain-drop {
+  0% {
+    -webkit-transform: translate(0px, -60px);
+    transform: translate(0px, -60px);
+    opacity: 0;
+  }
+  30% {
+    -webkit-transform: translate(0px, -36px);
+    transform: translate(0px, -36px);
+    opacity: 1;
+  }
+  80% {
+    -webkit-transform: translate(0px, 4px);
+    transform: translate(0px, 4px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translate(0px, 20px);
+    transform: translate(0px, 20px);
+    opacity: 0;
+  }
+}
+
+.icon-rainy {
+  transform: scale(0.5);
+}

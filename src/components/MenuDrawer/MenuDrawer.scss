@@ -1,0 +1,34 @@
+.menu-drawer {
+
+  .MuiDrawer-paper {
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 0.5rem;
+
+    a {
+      width: 100%;
+    }
+
+    .MuiButtonBase-root {
+      border: 1px solid red;
+      transition: all 0.3s ease-in-out;
+      border-radius: 0.3rem;
+
+      &:hover {
+        border-color: rgb(255, 72, 0);
+        color: rgb(255, 72, 0);
+      }
+    }
+
+    .MuiListItemText-root {
+      text-align: center;
+    }
+  }
+
+  @media (min-width: 600px) {
+    .MuiDrawer-paper {
+      width: 25rem;
+    }
+  }
+}
