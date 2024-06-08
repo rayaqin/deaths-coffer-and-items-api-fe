@@ -68,5 +68,5 @@ export const useTheme = (): ThemeContextProps => {
   return context
 }
 
-export const appendThemeClass = (className: string, theme: ThemeType) =>
+export const appendThemeClass = (className: string, theme?: ThemeType) =>
   cn(className, { light: theme === 'light' })

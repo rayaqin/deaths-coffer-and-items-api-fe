@@ -6,3 +6,20 @@ export type MenuOption = {
   linksTo: string
   isExternal?: boolean
 }
+
+type Item = {
+  id: number;
+  name: string;
+  grandExchangeGuidePrice: number;
+  buyPrice: number;
+  sellPrice: number;
+  lastGrandExchangeUpdate: string;
+  lastRuneLiteUpdate: string;
+  tradeLimit: number;
+  tradeVolume: number;
+  iconPath: string;
+};
+
+type ItemsResponse = {
+  items: Item[];
+};

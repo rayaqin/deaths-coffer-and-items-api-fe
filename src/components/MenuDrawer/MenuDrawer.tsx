@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import { appendThemeClass, useTheme } from '../../utils/ThemeContext'
-import { MenuOption } from '../../utils/types'
+import { MenuOption, ThemeType } from '../../utils/types'
 import { Link } from 'react-router-dom'
 
 import './MenuDrawer.scss'
@@ -61,9 +61,10 @@ const ExternalLinkButton: React.FC<{
   link: string
   onRequestClose: () => void
   displayText: string
-}> = ({ link, onRequestClose, displayText }) => (
+  theme?: ThemeType
+}> = ({ link, onRequestClose, displayText, theme }) => (
   <a href={link} target="_blank" rel="noopener noreferrer">
-    <ListItemButton onClick={onRequestClose}>
+    <ListItemButton className={appendThemeClass('menu-drawer__button', theme)} onClick={onRequestClose}>
       <ListItemText primary={displayText} />
     </ListItemButton>
   </a>
@@ -73,9 +74,10 @@ const InternalNavigationButton: React.FC<{
   link: string
   onRequestClose: () => void
   displayText: string
-}> = ({ link, onRequestClose, displayText }) => (
+  theme?: ThemeType
+}> = ({ link, onRequestClose, displayText, theme }) => (
   <Link to={link}>
-    <ListItemButton onClick={onRequestClose}>
+    <ListItemButton className={appendThemeClass('menu-drawer__button', theme)} onClick={onRequestClose}>
       <ListItemText primary={displayText} />
     </ListItemButton>
   </Link>
