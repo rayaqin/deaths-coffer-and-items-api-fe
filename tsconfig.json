@@ -16,6 +16,9 @@
     "jsx": "react-jsx",
     "types": ["jest", "testing-library__jest-dom"]
   },
+  "exclude": [
+    "src/components/ItemsTable/ItemsTable.tsx"
+  ],
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

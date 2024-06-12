@@ -1,0 +1,69 @@
+
+.items-table-outer-shell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  table {
+    background-color: rgba(32, 42, 78, 0.332);
+    padding: 0.5rem;
+    border-radius: 1rem;
+  }
+
+
+    input {
+      border: none;
+      outline: none;
+      background: rgba(25, 42, 171, 0.6);
+      padding: 0;
+      margin: 0;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      width: 100%;
+    }
+  
+
+  th {
+    text-align: start !important;
+  }
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+
+  .paging-buttons {
+    display: flex;
+    gap: 0.2rem;
+
+    button {
+      outline: none;
+      border: none;
+      color: rgb(96, 122, 182);
+      background-color: rgba(40, 53, 155, 0.349);
+      font-size: 1.2rem;
+      border-radius: 0.3rem;
+
+      &:hover {
+        background-color: rgba(25, 42, 171, 0.6);
+        cursor: pointer;
+      }
+    }
+  
+  }
+
+  .page-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    font-size: 10px;
+    color: rgb(96, 122, 182);
+  }
+}
