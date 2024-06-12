@@ -1,6 +1,9 @@
 import { useTable, usePagination, useSortBy, useFilters } from "react-table"
 import { matchSorter } from "match-sorter"
 import { useMemo } from "react"
+import { PiCaretDownBold } from "react-icons/pi"
+import { PiCaretUpBold } from "react-icons/pi"
+import { MdOutlineSort } from "react-icons/md"
 import "./ItemsTable.scss"
 
 interface ItemsTableProps {
@@ -15,7 +18,7 @@ function DefaultColumnFilter({
     <input
       value={filterValue || ""}
       onChange={(e) => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+        setFilter(e.target.value || undefined)
       }}
       placeholder={`search...`}
     />
@@ -75,7 +78,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
         </strong>{" "}
       </div>
     </section>
-    <div>
+    <div className="page-size-setter">
       page size:{" "}
       <select
         value={pageSize}
@@ -103,7 +106,6 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, data }) => {
 
   const defaultColumn = useMemo(
     () => ({
-      // Let's set up our default Filter UI
       Filter: DefaultColumnFilter,
     }),
     [],
@@ -139,28 +141,37 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, data }) => {
 
   return (
     <section className="items-table-outer-shell">
-      <table
-        style={{ fontSize: "11px", width: "90%", tableLayout: "fixed" }}
-        {...getTableProps()}
-      >
+      <table style={{ fontSize: "11px", width: "90%" }} {...getTableProps()}>
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+          {headerGroups.map((headerGroup, i) => (
+            <tr
+              {...headerGroup.getHeaderGroupProps()}
+              key={i}
+            >
               {headerGroup.headers
-                .filter((c) => !!c)
+                .filter((h) => !!h)
                 .map((column) => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    {column.render("Header")}
-                    <div>
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    key={column.id}
+                  >
+                    <div className="header-title">
+                      {column.render("Header")}
+                      <span className="header-filter-icon">
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <PiCaretUpBold size={8} />
+                          ) : (
+                            <PiCaretDownBold size={8} />
+                          )
+                        ) : (
+                          <MdOutlineSort size={8} />
+                        )}
+                      </span>
+                    </div>
+                    <div onClick={(e) => e.stopPropagation()}>
                       {column.canFilter ? column.render("Filter") : null}
                     </div>
-                    <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? " 🔽"
-                          : " 🔼"
-                        : ""}
-                    </span>
                   </th>
                 ))}
             </tr>
@@ -170,9 +181,15 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, data }) => {
           {page.map((row) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
+              <tr id="items-row" {...row.getRowProps()} key={row.id}>
                 {row.cells.map((cell) => (
-                  <td style={{textAlign: "start"}} {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  <td
+                    id="items-cell"
+                    {...cell.getCellProps()}
+                    key={cell.column.id + cell.row.id}
+                  >
+                    {cell.render("Cell")}
+                  </td>
                 ))}
               </tr>
             )
