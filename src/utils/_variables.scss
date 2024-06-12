@@ -1,26 +1,7 @@
-$color-deep-dark: #0e0c28;
-$color-soft-dark: #211f3f;
-$color-intense-deep: #2e296a;
-$color-intense-bright: #0a7ed7;
-$color-soft-bright: #419bdf73;
-$color-softest-bright: #5ba1d734;
+$color-deep-dark: #13121d;
+$color-pale-dark: #111018;
 $color-bright-pearl: #f1e9e3;
 $color-soft-pearl: #c5e6eb;
-$color-matte-green: #0e7c7b;
-$color-intense-green: #32e698;
-$color-bright-green: #6ddcda;
-$color-light-cyan: #8fe0d0;
-$color-soft-green: #97e4e4;
-$color-soft-blue: #538fc3;
-$color-pale-dark: #0d0a39b2;
-$color-low-green: #a9e7d2;
-$color-delete: #7d1922;
-
-$color-cloud: $color-matte-green;
-$color-rain-cloud: #999;
-$color-rain-cloud-light: #9da2ae;
-$color-rain-cloud-dark: #777;
-$color-main-background: transparent;
 
 @mixin wiggle-animation {
   &.wiggle-animation {
@@ -43,6 +24,19 @@ $color-main-background: transparent;
     }
     100% {
       transform: rotate(0deg);
+    }
+  }
+}
+
+@mixin fade-in-animation {
+  animation: fade-in 1s ease-in-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 }

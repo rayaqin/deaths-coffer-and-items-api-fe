@@ -1,0 +1,42 @@
+@import '../../utils/variables.scss';
+
+.menu-item-card-list-item-wrapper {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  .menu-item-card {
+    padding: 2.6rem 1rem;
+    border-radius: 1rem;
+    width: 22rem;
+    min-height: 14rem;
+    background: rgba(106, 89, 175, 0.10);
+    border: 1px solid rgba(164, 152, 213, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+
+    @include fade-in-animation;
+
+    &:hover {
+      background: rgba(106, 89, 175, 0.20);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgb(173, 178, 199);
+    }
+  }
+}
