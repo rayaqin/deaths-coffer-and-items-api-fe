@@ -2,7 +2,6 @@ import './ItemsPage.scss'
 import { appendThemeClass, useTheme } from '../../utils/ThemeContext'
 import { useItemsQuery, useItemsDummyQuery } from '../../utils/hooks'
 import { useMemo } from 'react'
-import ItemsTable from './ItemsTable';
 
 const ItemsPage: React.FC = () => {
 
@@ -28,11 +27,7 @@ const ItemsPage: React.FC = () => {
 
   return (
     <div>
-      {data && data.items.length > 0 ? (
-        <ItemsTable columns={columns} data={data.items} />
-      ) : (
-        <p>No items found.</p>
-      )}
+
     </div>
   );
 }
