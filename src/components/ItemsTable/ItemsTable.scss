@@ -1,0 +1,127 @@
+.items-table-outer-shell {
+  display: flex;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  overflow-x: auto;
+
+  table {
+    background-color: rgba(32, 42, 78, 0.332);
+    padding: 0.5rem;
+    border-radius: 1rem;
+    min-width: 970px;
+  }
+
+
+  input {
+    border: none;
+    outline: none;
+    background: rgba(58, 66, 120, 0.332);
+    padding: 0.2rem;
+    margin-left: -2px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    width: 85%;
+    border-radius: 0.2rem;
+    color: rgb(124, 173, 238);
+
+    &::placeholder {
+      color: rgb(43, 65, 118);
+    }
+  }
+
+  #items-row {
+    #items-cell {
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      span {
+        height: 10px;
+        max-height: 10px;
+        min-height: 10px;
+        white-space: nowrap;
+      }
+    }
+  }
+
+
+  th {
+    text-align: start;
+    padding-bottom: 0.5rem;
+    
+    .header-title {
+      margin-left: 0;
+      margin-bottom: 2px;
+      color: rgb(98, 114, 162);
+      display: flex;
+      flex-wrap: nowrap
+    }
+
+    .header-filter-icon {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 1rem;
+  width: 100%;
+  gap: 0.5rem;
+
+  .paging-buttons {
+    display: flex;
+    gap: 0.2rem;
+
+    button {
+      outline: none;
+      border: none;
+      color: rgb(96, 122, 182);
+      background-color: rgba(40, 53, 155, 0.349);
+      font-size: 1.2rem;
+      border-radius: 0.3rem;
+
+      &:hover {
+        background-color: rgba(25, 42, 171, 0.6);
+        cursor: pointer;
+      }
+    }
+  }
+
+
+
+  .page-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    font-size: 10px;
+    color: rgb(96, 122, 182);
+  }
+}
+
+.page-size-setter {
+  font-size: 10px;
+  color: rgb(96, 122, 182);
+  margin-bottom: 15rem;
+
+  select {
+    background-color: rgba(43, 51, 110, 0.6);
+    color: rgb(96, 122, 182);
+    border: none;
+    outline: none;
+    padding: 0.2rem;
+    border-radius: 0.3rem;
+
+    option {
+      background-color: rgba(20, 24, 61, 0.6);
+      color: rgb(255, 255, 255);
+    }
+  }
+}

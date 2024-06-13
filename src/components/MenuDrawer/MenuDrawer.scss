@@ -3,8 +3,7 @@
 .menu-drawer {
   .MuiDrawer-paper {
     width: 100%;
-    background-color: black;
-    color: white;
+    background-color: $color-pale-dark;
     padding: 0.5rem;
 
     a {
@@ -12,13 +11,14 @@
     }
 
     .menu-drawer__button {
-      border: 1px solid rgb(116, 115, 115);
+      color: rgb(89, 96, 173);
+      background: rgba(69, 55, 122, 0.1);
+      border: 1px solid rgba(164, 152, 213, 0.25);
       transition: all 0.3s ease-in-out;
       border-radius: 0.3rem;
 
       &:hover {
-        border-color: rgb(255, 72, 0);
-        color: rgb(255, 72, 0);
+        background: rgba(106, 89, 175, 0.20);
       }
     }
 

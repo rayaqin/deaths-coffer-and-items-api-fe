@@ -3,28 +3,27 @@ import { appendThemeClass, useTheme } from "../../utils/ThemeContext"
 import { useItemsQuery, useItemsDummyQuery } from "../../utils/hooks"
 import { useMemo, useState } from "react"
 import ItemsTable from "../../components/ItemsTable/ItemsTable"
-import { GrDocumentMissing } from "react-icons/gr";
+import { GrDocumentMissing } from "react-icons/gr"
 
 const ImageCell: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
   const [loaded, setLoaded] = useState(false)
-  const [imgSrc, setImgSrc] = useState(src)
   const [error, setError] = useState(false)
 
   const handleError = () => {
-    console.log("hello")
     setError(true)
-    setImgSrc("path/to/your/fallback/image.png") // replace with your fallback image path
   }
 
-  if(error) {
-    return <GrDocumentMissing />
+  if (error) {
+    return <GrDocumentMissing size={16} />
   }
 
   return (
     <>
-      {!loaded && <div>Loading...</div>}
+      {!loaded && <div style={{lineHeight:"19.65px"}}>Loading...</div>}
       <img
-        src={imgSrc}
+        src={src}
+        height="19.65"
+        width="19.65"
         alt={alt}
         onLoad={() => setLoaded(true)}
         onError={handleError}
@@ -49,9 +48,14 @@ const ItemsPage: React.FC = () => {
     }
     if (header.includes("date")) {
       const date = new Date(value)
-      const formattedDate = `${date.getFullYear()}.${
-        date.getMonth() + 1
-      }.${date.getDate()}, ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+      const formatter = new Intl.DateTimeFormat("default", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      const formattedDate = formatter.format(date)
       return <span>{formattedDate}</span>
     }
     return <span>{value}</span>
@@ -64,10 +68,12 @@ const ItemsPage: React.FC = () => {
   const columns = useMemo(() => {
     if (data && data.items.length > 0) {
       return Object.keys(data.items[0]).map((key) => ({
-        Header: key.charAt(0).toUpperCase() + key.slice(1),
+        Header: (key.charAt(0).toUpperCase() + key.slice(1))
+          .replace("GrandExchange", "GE")
+          .replace("RuneLite", "RL"),
         accessor: key,
         Cell: selectHowToRenderCell(key),
-        filter: 'fuzzyText',
+        filter: "fuzzyText",
       }))
     }
     return []
