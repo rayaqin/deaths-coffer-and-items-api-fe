@@ -1,5 +1,5 @@
 import "./ItemsPage.scss"
-import { appendThemeClass, useTheme } from "../../utils/ThemeContext"
+import { useTheme } from "../../utils/ThemeContext"
 import { useItemsQuery } from "../../utils/hooks"
 //import { useItemsDummyQuery } from "../../utils/hooks"
 import { useMemo, useState } from "react"
@@ -60,12 +60,20 @@ const ItemsPage: React.FC = () => {
 
   type CellValueProps = { cell: { value: string } }
 
+  const CellContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <div className="cell-container">
+      {children}
+    </div>
+  );
+  
   const getCellRender = (header: string, value: string) => {
-    if (header === "iconPath") {
-      return <ImageCell src={value} alt="-" />
-    }
-    return <span>{value}</span>
-  }
+    return (
+      <CellContainer>
+        {header === "name" && <ImageCell src={value} alt="-" />}
+        <span className="cell-value">{value}</span>
+      </CellContainer>
+    );
+  };
 
   const selectHowToRenderCell = (header: string) => (props: CellValueProps) => {
     return getCellRender(header, props.cell.value)
@@ -87,9 +95,12 @@ const ItemsPage: React.FC = () => {
   const columns = useMemo(() => {
     if (data && data.items.length > 0) {
       return Object.keys(data.items[0])
-        .filter((c) => !c.includes("Update"))
+        .filter((c) => !c.includes("Update") && !c.includes("iconPath"))
         .map((key) => ({
-          Header: key.charAt(0).toUpperCase() + key.slice(1),
+          Header: (key.charAt(0).toUpperCase() + key.slice(1)).replace(
+            "GrandExchange",
+            "G.E.",
+          ),
           accessor: key,
           Cell: selectHowToRenderCell(key),
           Filter: key.includes("rice") ? PriceRangeFilter : DefaultColumnFilter,

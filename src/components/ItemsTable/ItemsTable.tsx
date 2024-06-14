@@ -30,7 +30,7 @@ export function PriceRangeFilter({ column: { filterValue = {}, setFilter } }) {
       style={{
         display: "flex",
         gap: "0.8rem",
-        paddingRight: "0.3rem",
+        paddingRight: "0.6rem",
         maxWidth: "160px",
       }}
     >
@@ -165,8 +165,6 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
     usePagination,
   )
 
-  const noFilterColumnIds = ["iconPath", "lastGrandExchangeUpdate"]
-
   const formatter = new Intl.DateTimeFormat("default", {
     year: "numeric",
     month: "2-digit",
@@ -223,12 +221,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
                       onClick={(e) => e.stopPropagation()}
                       style={{ minHeight: "19.02px" }}
                     >
-                      {column.canFilter &&
-                      !noFilterColumnIds.some((word) =>
-                        column?.id.includes(word),
-                      )
-                        ? column.render("Filter")
-                        : null}
+                      {column.canFilter ? column.render("Filter") : null}
                     </div>
                   </th>
                 ))}

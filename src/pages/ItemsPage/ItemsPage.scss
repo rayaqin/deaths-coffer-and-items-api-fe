@@ -19,4 +19,15 @@
     align-items: center;
   }
 
+  .cell-container {
+    display: flex;
+    align-items: center;
+    height: 1.5rem;
+    gap: 0.4rem;
+  }
+  
+  .cell-value {
+    padding-top: 0.2rem;
+  }
+
 }
