@@ -128,6 +128,9 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, filterTypes, data }) =
     [],
   )
 
+  const storedPageSize = Number(localStorage.getItem('pageSize'));
+  const initialPageSize = storedPageSize ?? 20;
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -149,7 +152,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, filterTypes, data }) =
       data,
       filterTypes,
       defaultColumn,
-      initialState: { pageIndex: 0, pageSize: localStorage.getItem('pageSize') ? Number(localStorage.getItem('pageSize')) : 10},
+      initialState: { pageIndex: 0, pageSize: initialPageSize},
       enableColumnResizing: true,
     },
     useFilters,
