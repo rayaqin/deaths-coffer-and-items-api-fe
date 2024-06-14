@@ -51,8 +51,6 @@ export function PriceRangeFilter({
   );
 }
 
-
-
 interface PaginationControlsProps {
   gotoPage: (page: number) => void
   previousPage: () => void

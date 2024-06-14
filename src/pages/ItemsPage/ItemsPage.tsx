@@ -1,10 +1,11 @@
 import "./ItemsPage.scss"
 import { appendThemeClass, useTheme } from "../../utils/ThemeContext"
-import { useItemsQuery, useItemsDummyQuery } from "../../utils/hooks"
+import { useItemsQuery } from "../../utils/hooks"
 import { useMemo, useState } from "react"
 import ItemsTable, { DefaultColumnFilter, PriceRangeFilter } from "../../components/ItemsTable/ItemsTable"
 import { GrDocumentMissing } from "react-icons/gr"
 import { Triangle } from "react-loader-spinner"
+import { GiOpenChest } from "react-icons/gi";
 import { matchSorter } from "match-sorter"
 
 const ImageCell: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
@@ -48,7 +49,7 @@ const ItemsPage: React.FC = () => {
 
   const apiURL: string = import.meta.env.VITE_DEATHS_COFFER_API_URL
 
-  const { data, error, isLoading } = useItemsDummyQuery(apiURL + "items")
+  const { data, error, isLoading } = useItemsQuery(apiURL + "items")
 
   type CellValueProps = { cell: { value: string } }
 
@@ -130,7 +131,16 @@ const ItemsPage: React.FC = () => {
         />
       </div>
     )
-  if (error) return <p>Error: {error.message}</p>
+  if (error) return (
+    <div className="items-page-outer-shell loading">
+        <div style={{display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem"}}>
+        <GiOpenChest size={56} style={{margin: "2rem"}}/>
+        <span>The api did not return meaningful results</span>
+        <span>I think you should write an angry letter to the maintainer</span>
+        </div>
+        
+      </div>
+  )
 
   return (
     <div className="items-page-outer-shell">
