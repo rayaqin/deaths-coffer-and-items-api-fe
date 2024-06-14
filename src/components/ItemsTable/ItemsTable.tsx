@@ -1,5 +1,4 @@
 import { useTable, usePagination, useSortBy, useFilters } from "react-table"
-import { matchSorter } from "match-sorter"
 import { useMemo } from "react"
 import { PiCaretDownBold } from "react-icons/pi"
 import { PiCaretUpBold } from "react-icons/pi"
@@ -8,11 +7,12 @@ import "./ItemsTable.scss"
 
 interface ItemsTableProps {
   columns: any[]
+  filterTypes: any
   data: any[]
 }
 
-function DefaultColumnFilter({
-  column: { filterValue, preFilteredRows, setFilter },
+export function DefaultColumnFilter({
+  column: { filterValue, setFilter },
 }) {
   return (
     <input
@@ -25,11 +25,33 @@ function DefaultColumnFilter({
   )
 }
 
-function fuzzyTextFilterFn(rows, id, filterValue) {
-  return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] })
+export function PriceRangeFilter({
+  column: { filterValue = {}, setFilter },
+}) {
+  const { biggerThan, smallerThan } = filterValue;
+  return (
+    <div style={{display: "flex", gap: "0.8rem", paddingRight: "0.3rem", maxWidth: "160px"}}>
+      <input
+        value={biggerThan || ""}
+        onChange={(e) => {
+          const val = e.target.value;
+          setFilter(old => ({ ...old, biggerThan: val || undefined }));
+        }}
+        placeholder={`from`}
+      />
+      <input
+        value={smallerThan || ""}
+        onChange={(e) => {
+          const val = e.target.value;
+          setFilter(old => ({ ...old, smallerThan: val || undefined }));
+        }}
+        placeholder={`to`}
+      />
+    </div>
+  );
 }
 
-fuzzyTextFilterFn.autoRemove = (val) => !val
+
 
 interface PaginationControlsProps {
   gotoPage: (page: number) => void
@@ -96,14 +118,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   </div>
 )
 
-const ItemsTable: React.FC<ItemsTableProps> = ({ columns, data }) => {
-  const filterTypes = useMemo(
-    () => ({
-      fuzzyText: fuzzyTextFilterFn,
-    }),
-    [],
-  )
-
+const ItemsTable: React.FC<ItemsTableProps> = ({ columns, filterTypes, data }) => {
   const defaultColumn = useMemo(
     () => ({
       Filter: DefaultColumnFilter,
@@ -130,6 +145,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, data }) => {
     {
       columns,
       data,
+      filterTypes,
       defaultColumn,
       initialState: { pageIndex: 0, pageSize: 10 },
       enableColumnResizing: true,
@@ -139,9 +155,11 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, data }) => {
     usePagination,
   )
 
+  const noFilterColumnIds = ["iconPath", "lastGrandExchangeUpdate"];
+
   return (
     <section className="items-table-outer-shell">
-      <table style={{ fontSize: "11px", width: "90%" }} {...getTableProps()}>
+      <table style={{ fontSize: "0.9rem", width: "94%" }} {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup, i) => (
             <tr
@@ -155,22 +173,22 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, data }) => {
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     key={column.id}
                   >
-                    <div className="header-title">
+                    <div className="header-title" style={{}}>
                       {column.render("Header")}
                       <span className="header-filter-icon">
                         {column.isSorted ? (
                           column.isSortedDesc ? (
-                            <PiCaretUpBold size={8} />
+                            <PiCaretUpBold size={12} />
                           ) : (
-                            <PiCaretDownBold size={8} />
+                            <PiCaretDownBold size={12} />
                           )
                         ) : (
-                          <MdOutlineSort size={8} />
+                          <MdOutlineSort size={12} />
                         )}
                       </span>
                     </div>
-                    <div onClick={(e) => e.stopPropagation()}>
-                      {column.canFilter ? column.render("Filter") : null}
+                    <div onClick={(e) => e.stopPropagation()} style={{minHeight: "19.02px"}}>
+                      {(column.canFilter && !noFilterColumnIds.some(word => column?.id.includes(word))) ? column.render("Filter") : null}
                     </div>
                   </th>
                 ))}
@@ -181,10 +199,10 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, data }) => {
           {page.map((row) => {
             prepareRow(row)
             return (
-              <tr id="items-row" {...row.getRowProps()} key={row.id}>
+              <tr className="items-row" {...row.getRowProps()} key={row.id}>
                 {row.cells.map((cell) => (
                   <td
-                    id="items-cell"
+                    className="items-cell"
                     {...cell.getCellProps()}
                     key={cell.column.id + cell.row.id}
                   >
