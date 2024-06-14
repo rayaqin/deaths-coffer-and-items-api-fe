@@ -65,19 +65,7 @@ const ItemsPage: React.FC = () => {
       {children}
     </div>
   );
-  
-  const getCellRender = (header: string, value: string) => {
-    return (
-      <CellContainer>
-        {header === "name" && <ImageCell src={value} alt="-" />}
-        <span className="cell-value">{value}</span>
-      </CellContainer>
-    );
-  };
 
-  const selectHowToRenderCell = (header: string) => (props: CellValueProps) => {
-    return getCellRender(header, props.cell.value)
-  }
 
   const rangeFilterFn = (rows, id, filterValue) => {
     return rows.filter((row) => {
@@ -90,6 +78,29 @@ const ItemsPage: React.FC = () => {
       }
       return true
     })
+  }
+
+  const itemNameToIconPathMap = useMemo(() => {
+    if (data && data.items.length > 0) {
+      return data.items.reduce<{ [key: string]: string }>((acc, item) => {
+        acc[item.name] = item.iconPath;
+        return acc;
+      }, {});
+    }
+    return {};
+  }, [data]);
+
+  const getCellRender = (header: string, value: string) => {
+    return (
+      <CellContainer>
+        {header === "name" && <ImageCell src={itemNameToIconPathMap[value]} alt="-" />}
+        <span className="cell-value">{value}</span>
+      </CellContainer>
+    );
+  };
+
+  const selectHowToRenderCell = (header: string) => (props: CellValueProps) => {
+    return getCellRender(header, props.cell.value)
   }
 
   const columns = useMemo(() => {
