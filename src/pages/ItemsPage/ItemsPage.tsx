@@ -23,8 +23,8 @@ const ImageCell: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
     <>
       {!loaded && <Triangle
           visible={true}
-          height="19.65"
-          width="19.65"
+          height="20.57"
+          width="20.57"
           color="rgb(130, 180, 255)"
           ariaLabel="triangle-loading"
           wrapperStyle={{}}
