@@ -105,7 +105,9 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       <select
         value={pageSize}
         onChange={(e) => {
-          setPageSize(Number(e.target.value))
+          const newSize = Number(e.target.value);
+          setPageSize(newSize);
+          localStorage.setItem('pageSize', newSize.toString());
         }}
       >
         {[10, 20, 30, 40, 50].map((pageSize) => (
@@ -147,7 +149,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, filterTypes, data }) =
       data,
       filterTypes,
       defaultColumn,
-      initialState: { pageIndex: 0, pageSize: 10 },
+      initialState: { pageIndex: 0, pageSize: localStorage.getItem('pageSize') ? Number(localStorage.getItem('pageSize')) : 10},
       enableColumnResizing: true,
     },
     useFilters,
