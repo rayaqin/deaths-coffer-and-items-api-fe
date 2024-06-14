@@ -11,4 +11,17 @@ body {
   font-weight: bold;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #15151c; // Change this to the color you want for the track
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #2a4661; // Change this to the color you want for the thumb
+    border-radius: 0.5rem;
+  }
 }
