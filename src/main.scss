@@ -4,16 +4,18 @@
   url('./assets/fonts/FiraCodeNerdFont-SemiBold.ttf') 
 }
 
-
 body {
   font-family: 'FiraCode', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     'Roboto', sans-serif;
   font-weight: bold;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
+* {
   &::-webkit-scrollbar {
     width: 8px;
+    max-height: 8px;
   }
 
   &::-webkit-scrollbar-track {

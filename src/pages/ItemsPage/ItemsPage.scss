@@ -2,6 +2,7 @@
 
 .items-page-outer-shell {
   margin-top: 3rem;
+  margin-bottom: 1rem;
   min-height: 80vh;
   display: flex;
   justify-content: center;
@@ -10,11 +11,12 @@
 
 
   @media (min-width: 600px){
-    margin-top: 8rem;
+    margin-top: 4.5rem;
   }
 
   &.loading {
     margin-top: 0;
     align-items: center;
   }
+
 }

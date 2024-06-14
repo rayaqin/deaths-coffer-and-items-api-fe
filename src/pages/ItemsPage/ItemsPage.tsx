@@ -1,11 +1,15 @@
 import "./ItemsPage.scss"
 import { appendThemeClass, useTheme } from "../../utils/ThemeContext"
 import { useItemsQuery } from "../../utils/hooks"
+//import { useItemsDummyQuery } from "../../utils/hooks"
 import { useMemo, useState } from "react"
-import ItemsTable, { DefaultColumnFilter, PriceRangeFilter } from "../../components/ItemsTable/ItemsTable"
+import ItemsTable, {
+  DefaultColumnFilter,
+  PriceRangeFilter,
+} from "../../components/ItemsTable/ItemsTable"
 import { GrDocumentMissing } from "react-icons/gr"
 import { Triangle } from "react-loader-spinner"
-import { GiOpenChest } from "react-icons/gi";
+import { GiOpenChest } from "react-icons/gi"
 import { matchSorter } from "match-sorter"
 
 const ImageCell: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
@@ -22,7 +26,8 @@ const ImageCell: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
 
   return (
     <>
-      {!loaded && <Triangle
+      {!loaded && (
+        <Triangle
           visible={true}
           height="20.57"
           width="20.57"
@@ -30,7 +35,8 @@ const ImageCell: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
           ariaLabel="triangle-loading"
           wrapperStyle={{}}
           wrapperClass=""
-        />}
+        />
+      )}
       <img
         src={src}
         height="19.65"
@@ -50,24 +56,13 @@ const ItemsPage: React.FC = () => {
   const apiURL: string = import.meta.env.VITE_DEATHS_COFFER_API_URL
 
   const { data, error, isLoading } = useItemsQuery(apiURL + "items")
+  //const { data, error, isLoading } = useItemsDummyQuery(apiURL + "items")
 
   type CellValueProps = { cell: { value: string } }
 
   const getCellRender = (header: string, value: string) => {
     if (header === "iconPath") {
       return <ImageCell src={value} alt="-" />
-    }
-    if (header.includes("date")) {
-      const date = new Date(value)
-      const formatter = new Intl.DateTimeFormat("default", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-      const formattedDate = formatter.format(date)
-      return <span>{formattedDate}</span>
     }
     return <span>{value}</span>
   }
@@ -78,27 +73,28 @@ const ItemsPage: React.FC = () => {
 
   const rangeFilterFn = (rows, id, filterValue) => {
     return rows.filter((row) => {
-      const rowValue = row.values[id];
+      const rowValue = row.values[id]
       if (filterValue.biggerThan && rowValue <= filterValue.biggerThan) {
-        return false;
+        return false
       }
       if (filterValue.smallerThan && rowValue >= filterValue.smallerThan) {
-        return false;
+        return false
       }
-      return true;
-    });
-  };
+      return true
+    })
+  }
 
   const columns = useMemo(() => {
     if (data && data.items.length > 0) {
-      return Object.keys(data.items[0]).filter(c=>!c.includes("RuneLite")).map((key) => ({
-        Header: (key.charAt(0).toUpperCase() + key.slice(1))
-          .replace("GrandExchange", ""),
-        accessor: key,
-        Cell: selectHowToRenderCell(key),
-        Filter: key.includes("rice") ? PriceRangeFilter : DefaultColumnFilter, // assuming you have this defined somewhere
-      filter: key.includes("rice") ? 'priceRange' : 'fuzzyText',
-      }))
+      return Object.keys(data.items[0])
+        .filter((c) => !c.includes("Update"))
+        .map((key) => ({
+          Header: key.charAt(0).toUpperCase() + key.slice(1),
+          accessor: key,
+          Cell: selectHowToRenderCell(key),
+          Filter: key.includes("rice") ? PriceRangeFilter : DefaultColumnFilter,
+          filter: key.includes("rice") ? "priceRange" : "fuzzyText",
+        }))
     }
     return []
   }, [data])
@@ -106,16 +102,16 @@ const ItemsPage: React.FC = () => {
   function fuzzyTextFilterFn(rows, id, filterValue) {
     return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] })
   }
-  
+
   fuzzyTextFilterFn.autoRemove = (val) => !val
 
   const filterTypes = useMemo(
     () => ({
-      fuzzyText: fuzzyTextFilterFn, // assuming you have this defined somewhere
+      fuzzyText: fuzzyTextFilterFn,
       priceRange: rangeFilterFn,
     }),
-    []
-  );
+    [],
+  )
 
   if (isLoading)
     return (
@@ -131,21 +127,34 @@ const ItemsPage: React.FC = () => {
         />
       </div>
     )
-  if (error) return (
-    <div className="items-page-outer-shell loading">
-        <div style={{display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem"}}>
-        <GiOpenChest size={56} style={{margin: "2rem"}}/>
-        <span>The api did not return meaningful results</span>
-        <span>I think you should write an angry letter to the maintainer</span>
+  if (error)
+    return (
+      <div className="items-page-outer-shell loading">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "0.5rem",
+          }}
+        >
+          <GiOpenChest size={56} style={{ margin: "2rem" }} />
+          <span>The api did not return meaningful results</span>
+          <span>
+            I think you should write an angry letter to the maintainer
+          </span>
         </div>
-        
       </div>
-  )
+    )
 
   return (
     <div className="items-page-outer-shell">
       {data && data.items.length > 0 ? (
-        <ItemsTable columns={columns} data={data.items} filterTypes={filterTypes} />
+        <ItemsTable
+          columns={columns}
+          data={data.items}
+          filterTypes={filterTypes}
+        />
       ) : (
         <p>No items found.</p>
       )}

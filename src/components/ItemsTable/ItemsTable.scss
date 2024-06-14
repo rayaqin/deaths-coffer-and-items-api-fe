@@ -37,6 +37,33 @@
     }
   }
 
+  .last-update-wrapper {
+    display: flex;
+    margin-left: 0.5rem;
+    margin-top: 1rem;
+
+    .last-update-display {
+      display: grid;
+      font-size: 0.55rem;
+      margin-bottom: 1.5rem;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      align-items: start;
+      gap: 0.5rem 2rem;
+      color: rgb(141, 162, 192);
+
+      .grid-cell {
+        text-align: left;
+      }
+
+      @media (min-width: 600) {
+        margin-top: 0;
+      }
+    }
+  }
+
+
+
   .items-row {
     .items-cell {
       overflow: hidden;
@@ -52,6 +79,7 @@
 
     &:nth-child(odd) {
       background-color: rgba(45, 56, 95, 0.502);
+      color: rgb(193, 202, 218);
     }
   }
 
@@ -59,7 +87,7 @@
   th {
     text-align: start;
     padding-bottom: 0.5rem;
-    
+
     .header-title {
       margin-left: 0;
       margin-bottom: 2px;

@@ -11,9 +11,7 @@ interface ItemsTableProps {
   data: any[]
 }
 
-export function DefaultColumnFilter({
-  column: { filterValue, setFilter },
-}) {
+export function DefaultColumnFilter({ column: { filterValue, setFilter } }) {
   return (
     <input
       value={filterValue || ""}
@@ -25,30 +23,35 @@ export function DefaultColumnFilter({
   )
 }
 
-export function PriceRangeFilter({
-  column: { filterValue = {}, setFilter },
-}) {
-  const { biggerThan, smallerThan } = filterValue;
+export function PriceRangeFilter({ column: { filterValue = {}, setFilter } }) {
+  const { biggerThan, smallerThan } = filterValue
   return (
-    <div style={{display: "flex", gap: "0.8rem", paddingRight: "0.3rem", maxWidth: "160px"}}>
+    <div
+      style={{
+        display: "flex",
+        gap: "0.8rem",
+        paddingRight: "0.3rem",
+        maxWidth: "160px",
+      }}
+    >
       <input
         value={biggerThan || ""}
         onChange={(e) => {
-          const val = e.target.value;
-          setFilter(old => ({ ...old, biggerThan: val || undefined }));
+          const val = e.target.value
+          setFilter((old) => ({ ...old, biggerThan: val || undefined }))
         }}
         placeholder={`from`}
       />
       <input
         value={smallerThan || ""}
         onChange={(e) => {
-          const val = e.target.value;
-          setFilter(old => ({ ...old, smallerThan: val || undefined }));
+          const val = e.target.value
+          setFilter((old) => ({ ...old, smallerThan: val || undefined }))
         }}
         placeholder={`to`}
       />
     </div>
-  );
+  )
 }
 
 interface PaginationControlsProps {
@@ -103,9 +106,9 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       <select
         value={pageSize}
         onChange={(e) => {
-          const newSize = Number(e.target.value);
-          setPageSize(newSize);
-          localStorage.setItem('pageSize', newSize.toString());
+          const newSize = Number(e.target.value)
+          setPageSize(newSize)
+          localStorage.setItem("pageSize", newSize.toString())
         }}
       >
         {[10, 20, 30, 40, 50].map((pageSize) => (
@@ -118,7 +121,11 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   </div>
 )
 
-const ItemsTable: React.FC<ItemsTableProps> = ({ columns, filterTypes, data }) => {
+const ItemsTable: React.FC<ItemsTableProps> = ({
+  columns,
+  filterTypes,
+  data,
+}) => {
   const defaultColumn = useMemo(
     () => ({
       Filter: DefaultColumnFilter,
@@ -126,8 +133,8 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, filterTypes, data }) =
     [],
   )
 
-  const storedPageSize = Number(localStorage.getItem('pageSize'));
-  const initialPageSize = storedPageSize ?? 20;
+  const storedPageSize = Number(localStorage.getItem("pageSize"))
+  const initialPageSize = storedPageSize ?? 20
 
   const {
     getTableProps,
@@ -150,7 +157,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, filterTypes, data }) =
       data,
       filterTypes,
       defaultColumn,
-      initialState: { pageIndex: 0, pageSize: initialPageSize},
+      initialState: { pageIndex: 0, pageSize: initialPageSize },
       enableColumnResizing: true,
     },
     useFilters,
@@ -158,17 +165,39 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, filterTypes, data }) =
     usePagination,
   )
 
-  const noFilterColumnIds = ["iconPath", "lastGrandExchangeUpdate"];
+  const noFilterColumnIds = ["iconPath", "lastGrandExchangeUpdate"]
+
+  const formatter = new Intl.DateTimeFormat("default", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+
+  const grandExchangeLastUpdate =
+    data && formatter.format(new Date(data[0]["lastGrandExchangeUpdate"]))
+  const runeLiteLastUpdate =
+    data && formatter.format(new Date(data[0]["lastRuneLiteUpdate"]))
 
   return (
     <section className="items-table-outer-shell">
+      <div className="last-update-wrapper">
+        <section className="last-update-display">
+          <div className="grid-cell">Last Grand Exchange update:</div>
+          <div className="grid-cell">
+            {data.length > 0 ? grandExchangeLastUpdate : "-"}
+          </div>
+          <div className="grid-cell">Last Rune Lite update:</div>
+          <div className="grid-cell">
+            {data.length > 0 ? runeLiteLastUpdate : "-"}
+          </div>
+        </section>
+      </div>
       <table style={{ fontSize: "0.9rem", width: "94%" }} {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup, i) => (
-            <tr
-              {...headerGroup.getHeaderGroupProps()}
-              key={i}
-            >
+            <tr {...headerGroup.getHeaderGroupProps()} key={i}>
               {headerGroup.headers
                 .filter((h) => !!h)
                 .map((column) => (
@@ -190,8 +219,16 @@ const ItemsTable: React.FC<ItemsTableProps> = ({ columns, filterTypes, data }) =
                         )}
                       </span>
                     </div>
-                    <div onClick={(e) => e.stopPropagation()} style={{minHeight: "19.02px"}}>
-                      {(column.canFilter && !noFilterColumnIds.some(word => column?.id.includes(word))) ? column.render("Filter") : null}
+                    <div
+                      onClick={(e) => e.stopPropagation()}
+                      style={{ minHeight: "19.02px" }}
+                    >
+                      {column.canFilter &&
+                      !noFilterColumnIds.some((word) =>
+                        column?.id.includes(word),
+                      )
+                        ? column.render("Filter")
+                        : null}
                     </div>
                   </th>
                 ))}
