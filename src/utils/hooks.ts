@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from "react-query";
+import { useMutation, useQuery, UseQueryResult } from "react-query";
 import itemsDummyResponse from './itemsDummyResponse.json';
 import calculatedItemsDummyResponse from './calculatedItemsDummyResponse.json';
 import { ItemsResponse, DeathsCofferRequestBody, CalculateDeathsCofferQueryResponse, Offering } from "./types";
@@ -31,50 +31,46 @@ export const useItemsQueryDummy = (url: string): UseQueryResult<ItemsResponse, E
   });
 }
 
-const checkIfRequestBodyIsAllZeros = (requestBody: DeathsCofferRequestBody): boolean => {
+export const checkIfRequestBodyIsAllZeros = (requestBody: DeathsCofferRequestBody): boolean => {
   return Object.values(requestBody).every(value => value === 0);
 }
 
-async function fetchItemsData(requestBody: DeathsCofferRequestBody) {
-  const response = await fetch(
-    `${import.meta.env.VITE_DEATHS_COFFER_API_URL}calculate/deathsCoffer`,
+export const useCalculateDeathsCofferQuery = () => {
+  const [data, setData] = useState<CalculateDeathsCofferQueryResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const { mutate } = useMutation(
+    (payload: DeathsCofferRequestBody) => {
+      return fetch(`${import.meta.env.VITE_DEATHS_COFFER_API_URL}calculate/deathsCoffer`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }).then((res) => res.json());
+    },
     {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+      onSuccess: (data: CalculateDeathsCofferQueryResponse) => {
+        setData(data);
+        setIsLoading(false);
       },
-      body: checkIfRequestBodyIsAllZeros(requestBody) ? "{}" : JSON.stringify(requestBody),
-    }
-  );
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
-}
-
-export const useCalculateDeathsCofferQuery = (initialRequestBody: DeathsCofferRequestBody): {
-  data: Offering[] | null;
-  isLoading: boolean;
-  error: Error | null;
-  refetch: (requestBody: DeathsCofferRequestBody) => void;
-} => {
-  const [requestBody, setRequestBody] = useState<DeathsCofferRequestBody>(initialRequestBody);
-
-  const { data, isLoading, error, refetch: refetchQuery } = useQuery<any, Error>(
-    ["fetchItemsData", requestBody],
-    () => fetchItemsData(requestBody),
-    {
-      enabled: !!requestBody,
+      onError: (error) => {
+        setError(new Error('Failed to fetch data'));
+        setIsLoading(false);
+      },
     }
   );
 
-  const refetch = (newRequestBody: DeathsCofferRequestBody) => {
-    setRequestBody(newRequestBody);
-    refetchQuery();
+  const refetch = (payload: DeathsCofferRequestBody) => {
+    setIsLoading(true);
+    mutate(payload);
   };
 
   return { data: data?.bestOfferings, isLoading, error, refetch };
 };
+
+
 
 export const useCalculateDeathsCofferQueryDummy = () => {
   const [data, setData] = useState<CalculateDeathsCofferQueryResponse | null>(null);

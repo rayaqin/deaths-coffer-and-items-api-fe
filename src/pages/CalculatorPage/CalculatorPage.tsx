@@ -6,7 +6,7 @@ import ItemsTable from "../../components/ItemsTable/ItemsTable"
 import { Triangle } from "react-loader-spinner"
 import { GiOpenChest } from "react-icons/gi"
 import { DeathsCofferRequestBody } from "../../utils/types"
-import { useCalculateDeathsCofferQuery } from "../../utils/hooks"
+import { checkIfRequestBodyIsAllZeros, useCalculateDeathsCofferQuery } from "../../utils/hooks"
 import { useCalculateDeathsCofferQueryDummy } from "../../utils/hooks"
 
 const initialRequestBody = {
@@ -20,7 +20,6 @@ const CalculatorPage: React.FC = () => {
   const [minimumOfferingValue, setMinimumOfferingValue] = useState<number>(0)
   const [maximumPrice, setMaximumPrice] = useState<number>(0)
   const [minimumTradeVolume, setMinimumTradeVolume] = useState<number>(0)
-  const [requestBody, setRequestBody] = useState<DeathsCofferRequestBody>(initialRequestBody)
 
   /*const {
     data,
@@ -34,21 +33,18 @@ const CalculatorPage: React.FC = () => {
     isLoading,
     error,
     refetch,
-  } = useCalculateDeathsCofferQuery(requestBody)
-
-  useEffect(() => {
-    if (requestBody) {
-      refetch(requestBody)
-    }
-  }, [requestBody])
+  } = useCalculateDeathsCofferQuery()
 
   const handleCalculate = async () => {
+    
     const body = {
       minimumOfferingValue,
       maximumPrice,
       minimumTradeVolume,
     }
-    setRequestBody(body)
+    if (!checkIfRequestBodyIsAllZeros(body)) {
+      refetch(body)
+    }
   }
 
   const handleKeyUp = (e: React.KeyboardEvent) => {
