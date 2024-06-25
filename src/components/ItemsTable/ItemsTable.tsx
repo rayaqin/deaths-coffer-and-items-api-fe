@@ -133,8 +133,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
     [],
   )
 
-  const storedPageSize = Number(localStorage.getItem("pageSize"))
-  const initialPageSize = storedPageSize ?? 20
+  const initialPageSize = localStorage.getItem("pageSize") ?? 20
 
   const {
     getTableProps,
