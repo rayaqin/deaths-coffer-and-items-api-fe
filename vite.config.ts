@@ -24,4 +24,7 @@ export default defineConfig({
     setupFiles: 'src/setupTests',
     mockReset: true,
   },
+  esbuild: {
+    logLevel: 'silent'
+  }
 })

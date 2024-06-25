@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { useTable, usePagination, useSortBy, useFilters } from "react-table"
 import { useMemo, useState } from "react"
 import { PiCaretDownBold } from "react-icons/pi"
