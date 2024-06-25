@@ -31,7 +31,11 @@ export const useItemsQueryDummy = (url: string): UseQueryResult<ItemsResponse, E
   });
 }
 
-async function fetchItemsData(requestBody: DeathsCofferRequestBody | null) {
+const checkIfRequestBodyIsAllZeros = (requestBody: DeathsCofferRequestBody): boolean => {
+  return Object.values(requestBody).every(value => value === 0);
+}
+
+async function fetchItemsData(requestBody: DeathsCofferRequestBody) {
   const response = await fetch(
     `${import.meta.env.VITE_DEATHS_COFFER_API_URL}calculate/deathsCoffer`,
     {
@@ -39,7 +43,7 @@ async function fetchItemsData(requestBody: DeathsCofferRequestBody | null) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: requestBody==null ? "{}" : JSON.stringify(requestBody),
+      body: checkIfRequestBodyIsAllZeros(requestBody) ? "{}" : JSON.stringify(requestBody),
     }
   );
   if (!response.ok) {
