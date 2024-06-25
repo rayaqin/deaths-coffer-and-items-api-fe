@@ -48,13 +48,13 @@ async function fetchItemsData(requestBody: DeathsCofferRequestBody | null) {
   return response.json();
 }
 
-export const useCalculateDeathsCofferQuery = (initialRequestBody: DeathsCofferRequestBody | null): {
+export const useCalculateDeathsCofferQuery = (initialRequestBody: DeathsCofferRequestBody): {
   data: Offering[] | null;
   isLoading: boolean;
   error: Error | null;
-  refetch: (requestBody?: DeathsCofferRequestBody | null) => void;
+  refetch: (requestBody: DeathsCofferRequestBody) => void;
 } => {
-  const [requestBody, setRequestBody] = useState<DeathsCofferRequestBody | null>(initialRequestBody);
+  const [requestBody, setRequestBody] = useState<DeathsCofferRequestBody>(initialRequestBody);
 
   const { data, isLoading, error, refetch: refetchQuery } = useQuery<any, Error>(
     ["fetchItemsData", requestBody],
@@ -64,8 +64,8 @@ export const useCalculateDeathsCofferQuery = (initialRequestBody: DeathsCofferRe
     }
   );
 
-  const refetch = (newRequestBody?: DeathsCofferRequestBody | null) => {
-    setRequestBody(newRequestBody ?? null);
+  const refetch = (newRequestBody: DeathsCofferRequestBody) => {
+    setRequestBody(newRequestBody);
     refetchQuery();
   };
 

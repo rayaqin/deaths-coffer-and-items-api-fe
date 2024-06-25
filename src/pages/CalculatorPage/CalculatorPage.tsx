@@ -9,12 +9,18 @@ import { DeathsCofferRequestBody } from "../../utils/types"
 import { useCalculateDeathsCofferQuery } from "../../utils/hooks"
 import { useCalculateDeathsCofferQueryDummy } from "../../utils/hooks"
 
+const initialRequestBody = {
+  minimumOfferingValue: 0,
+  maximumPrice: 0,
+  minimumTradeVolume: 0,
+}
+
 const CalculatorPage: React.FC = () => {
   const { theme } = useTheme()
   const [minimumOfferingValue, setMinimumOfferingValue] = useState<number>(0)
   const [maximumPrice, setMaximumPrice] = useState<number>(0)
   const [minimumTradeVolume, setMinimumTradeVolume] = useState<number>(0)
-  const [requestBody, setRequestBody] = useState<DeathsCofferRequestBody | null>(null)
+  const [requestBody, setRequestBody] = useState<DeathsCofferRequestBody>(initialRequestBody)
 
   /*const {
     data,
@@ -32,7 +38,7 @@ const CalculatorPage: React.FC = () => {
 
   useEffect(() => {
     if (requestBody) {
-      refetch()
+      refetch(requestBody)
     }
   }, [requestBody])
 
