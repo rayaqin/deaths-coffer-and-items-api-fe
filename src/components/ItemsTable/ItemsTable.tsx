@@ -1,15 +1,14 @@
 import { useTable, usePagination, useSortBy, useFilters } from "react-table"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { PiCaretDownBold } from "react-icons/pi"
 import { PiCaretUpBold } from "react-icons/pi"
 import { MdOutlineSort } from "react-icons/md"
+import { Triangle } from "react-loader-spinner"
+import { GrDocumentMissing } from "react-icons/gr"
 import "./ItemsTable.scss"
-
-interface ItemsTableProps {
-  columns: any[]
-  filterTypes: any
-  data: any[]
-}
+import { matchSorter } from "match-sorter"
+import { Item } from "../../utils/types"
+import { appendThemeClass, useTheme } from "../../utils/ThemeContext"
 
 export function DefaultColumnFilter({ column: { filterValue, setFilter } }) {
   return (
@@ -121,11 +120,86 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
   </div>
 )
 
+const ImageCell: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
+  const [loaded, setLoaded] = useState(false)
+  const [error, setError] = useState(false)
+
+  const handleError = () => {
+    setError(true)
+  }
+
+  if (error) {
+    return <GrDocumentMissing size={16} />
+  }
+
+  return (
+    <>
+      {!loaded && (
+        <Triangle
+          visible={true}
+          height="16"
+          width="16"
+          color="rgb(130, 180, 255)"
+          ariaLabel="triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      )}
+      <img
+        src={src}
+        height="19.65"
+        width="19.65"
+        alt={alt}
+        onLoad={() => setLoaded(true)}
+        onError={handleError}
+        style={{ display: loaded ? "block" : "none" }}
+      />
+    </>
+  )
+}
+
+
+type CellValueProps = { cell: { value: string } }
+
+const CellContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="cell-container">
+    {children}
+  </div>
+);
+
+const getCellRender = (header: string, value: string, itemNameToIconPathMap: Record<string, string>) => {
+  return (
+    <CellContainer>
+      {header === "name" && <ImageCell src={itemNameToIconPathMap[value]} alt="-" />}
+      <span className="cell-value">{value}</span>
+    </CellContainer>
+  );
+};
+
+const rangeFilterFn = (rows, id, filterValue) => {
+  return rows.filter((row) => {
+    const rowValue = row.values[id]
+    if (filterValue.biggerThan && rowValue <= filterValue.biggerThan) {
+      return false
+    }
+    if (filterValue.smallerThan && rowValue >= filterValue.smallerThan) {
+      return false
+    }
+    return true
+  })
+}
+
+const initialPageSize = Number(localStorage.getItem("pageSize") ?? 20)
+
+interface ItemsTableProps {
+  items: Item[]
+}
+
 const ItemsTable: React.FC<ItemsTableProps> = ({
-  columns,
-  filterTypes,
-  data,
+  items,
 }) => {
+  const { theme } = useTheme()
+
   const defaultColumn = useMemo(
     () => ({
       Filter: DefaultColumnFilter,
@@ -133,7 +207,52 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
     [],
   )
 
-  const initialPageSize = localStorage.getItem("pageSize") ?? 20
+  const itemNameToIconPathMap = useMemo(() => {
+    if (items?.length > 0) {
+      return items.reduce((acc, item) => {
+        acc[item.name] = item.iconPath;
+        return acc;
+      }, {} as {[key: string] : string});
+    }
+    return {};
+  }, [items]);
+
+
+  const selectHowToRenderCell = (header: string) => (props: CellValueProps) => {
+    return getCellRender(header, props.cell.value, itemNameToIconPathMap)
+  }
+
+  const columns = useMemo(() => {
+    if (items?.length > 0) {
+      return Object.keys(items[0])
+        .filter((c) => !c.includes("Update") && !c.includes("iconPath"))
+        .map((key) => ({
+          Header: (key.charAt(0).toUpperCase() + key.slice(1)).replace(
+            "GrandExchange",
+            "G.E.",
+          ),
+          accessor: key,
+          Cell: selectHowToRenderCell(key),
+          Filter: key.includes("rice") ? PriceRangeFilter : DefaultColumnFilter,
+          filter: key.includes("rice") ? "priceRange" : "fuzzyText",
+        }))
+    }
+    return []
+  }, [items])
+
+  function fuzzyTextFilterFn(rows, id, filterValue) {
+    return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] })
+  }
+
+  fuzzyTextFilterFn.autoRemove = (val) => !val
+
+  const filterTypes = useMemo(
+    () => ({
+      fuzzyText: fuzzyTextFilterFn,
+      priceRange: rangeFilterFn,
+    }),
+    [],
+  )
 
   const {
     getTableProps,
@@ -153,7 +272,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
   } = useTable(
     {
       columns,
-      data,
+      data: items,
       filterTypes,
       defaultColumn,
       initialState: { pageIndex: 0, pageSize: initialPageSize },
@@ -173,21 +292,21 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
   })
 
   const grandExchangeLastUpdate =
-    data && formatter.format(new Date(data[0]["lastGrandExchangeUpdate"]))
+    items && formatter.format(new Date(items[0]["lastGrandExchangeUpdate"]))
   const runeLiteLastUpdate =
-    data && formatter.format(new Date(data[0]["lastRuneLiteUpdate"]))
+    items && formatter.format(new Date(items[0]["lastRuneLiteUpdate"]))
 
   return (
-    <section className="items-table-outer-shell">
+    <section className={appendThemeClass("items-table-outer-shell", theme)}>
       <div className="last-update-wrapper">
         <section className="last-update-display">
           <div className="grid-cell">Last Grand Exchange update:</div>
           <div className="grid-cell">
-            {data.length > 0 ? grandExchangeLastUpdate : "-"}
+            {items?.length > 0 ? grandExchangeLastUpdate : "-"}
           </div>
           <div className="grid-cell">Last Rune Lite update:</div>
           <div className="grid-cell">
-            {data.length > 0 ? runeLiteLastUpdate : "-"}
+            {items?.length > 0 ? runeLiteLastUpdate : "-"}
           </div>
         </section>
       </div>
@@ -246,7 +365,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
           })}
         </tbody>
       </table>
-      {data.length > 20 && (
+      {items?.length && (
         <PaginationControls
           gotoPage={gotoPage}
           previousPage={previousPage}

@@ -3,12 +3,147 @@
 .calculator-page-outer-shell {
   margin-top: 3rem;
   min-height: 80vh;
-  border: 1px solid green;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 
   .inner-shell {
-    border: 1px solid blue;
+    opacity: 0;
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @include fade-in-animation;
+
+    fieldset {
+      width: 100%;
+      outline: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+
+      .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.6rem;
+
+        input {
+          all: unset;
+          box-sizing: border-box;
+          width: 100%;
+          font-size: 1rem;
+          outline: none;
+          padding: 1rem 0.5rem;
+          border: 1px solid #666;
+          height: fit-content;
+          border-radius: 0.5rem;
+          background-color: $color-pale-dark;
+          color: $color-bright-pearl;
+          transition: border-color 0.3s ease-in-out;
+
+          -moz-appearance: textfield;
+          appearance: textfield;
+
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+          }
+
+          &:active, &:focus {
+            border-color: white;
+          }
+        }
+      }
+
+      button {
+        margin-top: 2rem;
+        outline: none;
+        min-width: 12rem;
+        font-size: 1.5rem;
+        border: 1px solid white;
+        padding: 1rem 0.7rem;
+        border-radius: 0.5rem;
+        background-color: white;
+        color: $color-pale-dark;
+        cursor: pointer;
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+          box-shadow: 0 0 16px white;
+        }
+      }
+
+      @media (min-width: 768px) {
+        flex-direction: row;
+        align-items: center;
+
+        button {
+          padding: 1.5rem 1rem;
+          margin-top: 0;
+          margin-left: 3rem;
+        }
+      }
+    }
+
+    .calculated-items {
+      display: flex;
+      justify-content: center;
+
+      .loading-triangle {
+        margin-top: 4rem;
+      }
+
+      .error-message {
+        margin-top: 4rem;
+        padding: 0 1rem;
+        font-size: 1.2rem;
+        text-align: center;
+        max-width: 1200px;
+
+        @media (min-width: 768px) {
+          width: 100%;
+          padding: 0 5rem;
+        }
+      }
+    }
+
+    @media (min-width: 768px) {
+      margin-top: 6rem;
+      gap: 3rem;
+    }
+  }
+
+  &.light {
+    color: #0f163c;
+    fieldset {
+      button {
+        color: inherit;
+
+        &:hover {
+          box-shadow: 0 0 8px #a5b1f5;
+          color: #748bd4;
+        }
+      }
+      .input-wrapper {
+        input {
+          background-color: #c0daf982;
+          border: 1px solid rgba(182, 215, 245, 0.598);
+          color: #272f5b;
+
+          &:active, &:focus {
+            border-color: rgb(56, 113, 171);
+          }
+        }
+      }
+    }
   }
 }

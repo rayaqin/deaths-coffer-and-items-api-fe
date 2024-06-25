@@ -10,7 +10,7 @@
       width: 100%;
     }
 
-    .menu-drawer__button {
+    .menu-drawer-button {
       color: rgb(89, 96, 173);
       background: rgba(69, 55, 122, 0.1);
       border: 1px solid rgba(164, 152, 213, 0.25);
@@ -19,6 +19,15 @@
 
       &:hover {
         background: rgba(106, 89, 175, 0.20);
+      }
+
+      &.light {
+        color: #0f163c;
+        background-color: rgb(214, 224, 234);
+
+        &:hover {
+          background: rgb(199, 219, 239);
+        }
       }
     }
 
@@ -35,8 +44,7 @@
 
   &.light {
     .MuiDrawer-paper {
-      background: rgb(246, 252, 252);
-      color: $color-deep-dark;
+      background-color: #ecf0f4;
     }
   }
 

@@ -23,11 +23,6 @@ const App: React.FC = () => {
     setDrawerOpen(false)
   }
 
-  const handleMenuOptionSelected = (id: string) => {
-    console.log(`Option ${id} selected`)
-    setDrawerOpen(false)
-  }
-
   return (
     <div className={appendThemeClass("page-outer-shell", theme)}>
       <ErrorBoundary>

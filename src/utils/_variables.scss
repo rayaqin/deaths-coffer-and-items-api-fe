@@ -2,6 +2,7 @@ $color-deep-dark: #13121d;
 $color-pale-dark: #111018;
 $color-bright-pearl: #f1e9e3;
 $color-soft-pearl: #c5e6eb;
+$color-dark-orange: #561e11;
 
 @mixin wiggle-animation {
   &.wiggle-animation {
@@ -29,7 +30,7 @@ $color-soft-pearl: #c5e6eb;
 }
 
 @mixin fade-in-animation {
-  animation: fade-in 1s ease-in-out;
+  animation: fade-in 1s ease-in-out forwards;
 
   @keyframes fade-in {
     from {

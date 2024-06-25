@@ -7,8 +7,33 @@ import ListItemText from '@mui/material/ListItemText'
 import { appendThemeClass, useTheme } from '../../utils/ThemeContext'
 import { MenuOption, ThemeType } from '../../utils/types'
 import { Link } from 'react-router-dom'
-
 import './MenuDrawer.scss'
+
+const ExternalLinkButton: React.FC<{
+  link: string
+  onRequestClose: () => void
+  displayText: string
+  theme?: ThemeType
+}> = ({ link, onRequestClose, displayText, theme }) => (
+  <a href={link} target="_blank" rel="noopener noreferrer">
+    <ListItemButton className={appendThemeClass('menu-drawer-button', theme)} onClick={onRequestClose}>
+      <ListItemText primary={displayText} />
+    </ListItemButton>
+  </a>
+)
+
+const InternalNavigationButton: React.FC<{
+  link: string
+  onRequestClose: () => void
+  displayText: string
+  theme?: ThemeType
+}> = ({ link, onRequestClose, displayText, theme }) => (
+  <Link to={link}>
+    <ListItemButton className={appendThemeClass('menu-drawer-button', theme)} onClick={onRequestClose}>
+      <ListItemText primary={displayText} />
+    </ListItemButton>
+  </Link>
+)
 
 interface DrawerProps {
   isOpen: boolean
@@ -32,12 +57,14 @@ const MenuDrawer: React.FC<DrawerProps> = ({
               link={option.linksTo}
               onRequestClose={onRequestClose}
               displayText={option.displayText}
+              theme={theme}
             />
           ) : (
             <InternalNavigationButton
               link={option.linksTo}
               onRequestClose={onRequestClose}
               displayText={option.displayText}
+              theme={theme}
             />
           )}
         </ListItem>
@@ -56,31 +83,5 @@ const MenuDrawer: React.FC<DrawerProps> = ({
     </Drawer>
   )
 }
-
-const ExternalLinkButton: React.FC<{
-  link: string
-  onRequestClose: () => void
-  displayText: string
-  theme?: ThemeType
-}> = ({ link, onRequestClose, displayText, theme }) => (
-  <a href={link} target="_blank" rel="noopener noreferrer">
-    <ListItemButton className={appendThemeClass('menu-drawer__button', theme)} onClick={onRequestClose}>
-      <ListItemText primary={displayText} />
-    </ListItemButton>
-  </a>
-)
-
-const InternalNavigationButton: React.FC<{
-  link: string
-  onRequestClose: () => void
-  displayText: string
-  theme?: ThemeType
-}> = ({ link, onRequestClose, displayText, theme }) => (
-  <Link to={link}>
-    <ListItemButton className={appendThemeClass('menu-drawer__button', theme)} onClick={onRequestClose}>
-      <ListItemText primary={displayText} />
-    </ListItemButton>
-  </Link>
-)
 
 export default MenuDrawer

@@ -1,9 +1,27 @@
 @import '../../utils/variables.scss';
 
-.menu-item-card-list-item-wrapper {
+.menu-item-card-wrapper {
   list-style: none;
   padding: 0;
   margin: 0;
+  color: white;
+
+  &.light {
+    color: #0f163c;
+
+    .menu-item-card {
+      background: rgba(115, 142, 168, 0.1);
+      border: 1px solid rgba(168, 135, 135, 0.35);
+
+      &:hover {
+        background: rgba(169, 199, 227, 0.3);
+      }
+
+      p {
+        color: rgb(98, 98, 130);
+      }
+    }
+  }
 
   .menu-item-card {
     padding: 2.6rem 1rem;
