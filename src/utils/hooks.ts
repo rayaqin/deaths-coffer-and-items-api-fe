@@ -33,13 +33,13 @@ export const useItemsQueryDummy = (url: string): UseQueryResult<ItemsResponse, E
 
 async function fetchItemsData(requestBody: DeathsCofferRequestBody | null) {
   const response = await fetch(
-    `${import.meta.env.VITE_DEATHS_COFFER_API_URL}/calculate/deathsCoffer`,
+    `${import.meta.env.VITE_DEATHS_COFFER_API_URL}calculate/deathsCoffer`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestBody),
+      body: requestBody==null ? "{}" : JSON.stringify(requestBody),
     }
   );
   if (!response.ok) {
