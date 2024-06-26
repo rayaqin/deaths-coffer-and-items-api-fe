@@ -49,7 +49,7 @@ const ItemsPage: React.FC = () => {
           items={data.items}
         />
       ) : (
-        <p>No items found.</p>
+        <p>No items found with the provided parameters</p>
       )}
     </div>
   )

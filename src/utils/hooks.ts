@@ -67,7 +67,7 @@ export const useCalculateDeathsCofferQuery = () => {
     mutate(payload);
   };
 
-  return { data: data?.bestOfferings, isLoading, error, refetch };
+  return { data: data, isLoading, error, refetch };
 };
 
 

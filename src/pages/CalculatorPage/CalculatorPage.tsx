@@ -5,15 +5,9 @@ import { useQuery } from "react-query"
 import ItemsTable from "../../components/ItemsTable/ItemsTable"
 import { Triangle } from "react-loader-spinner"
 import { GiOpenChest } from "react-icons/gi"
-import { DeathsCofferRequestBody } from "../../utils/types"
+import { CalculateDeathsCofferQueryResponse, DeathsCofferRequestBody, Offering } from "../../utils/types"
 import { checkIfRequestBodyIsAllZeros, useCalculateDeathsCofferQuery } from "../../utils/hooks"
 import { useCalculateDeathsCofferQueryDummy } from "../../utils/hooks"
-
-const initialRequestBody = {
-  minimumOfferingValue: 0,
-  maximumPrice: 0,
-  minimumTradeVolume: 0,
-}
 
 const CalculatorPage: React.FC = () => {
   const { theme } = useTheme()
@@ -90,30 +84,56 @@ const CalculatorPage: React.FC = () => {
           <button onClick={handleCalculate}>Calculate</button>
         </fieldset>
         <div className="calculated-items">
-          {!isLoading && !error && !data && (
-            <GiOpenChest size={112} style={{ marginTop: "4rem" }} />
-          )}
-          {isLoading ? (
-            <div className="loading-triangle">
-              <Triangle
-                height="80"
-                width="80"
-                color="rgb(96, 122, 182)"
-                ariaLabel="triangle-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-              />
-            </div>
-          ) : error ? (
-            
-            <div className="error-message">{"Well, fetching the calculated items failed somehow, and we all know it's the fault of the backend devs. I'd suggest writing about your frustration to the maintainer, and attaching a threatening gif to the e-mail."}</div>
-          ) : (
-            data && <ItemsTable items={data} />
-          )}
+          <CalculatorPageContent isLoading={isLoading} error={error} data={data} />
         </div>
       </div>
     </div>
   )
+}
+
+interface CalculatorPageContentProps {
+  isLoading: boolean;
+  error: Error | null;
+  data?: CalculateDeathsCofferQueryResponse | null;
+}
+
+function CalculatorPageContent({ isLoading, error, data = null }: CalculatorPageContentProps) {
+  if (!isLoading && !error && !data) {
+    return <GiOpenChest size={112} style={{ marginTop: "4rem" }} />
+  }
+
+  if (isLoading) {
+    return (
+      <div className="loading-triangle">
+        <Triangle
+          height="80"
+          width="80"
+          color="rgb(96, 122, 182)"
+          ariaLabel="triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-message">
+        {"Well, fetching the calculated items failed somehow, and we all know it's the fault of the backend devs. I'd suggest writing about your frustration to the maintainer, and attaching a threatening gif to the e-mail."}
+      </div>
+    );
+  }
+
+  if (!data!.bestOfferings?.length) {
+    return <p>No items found with the provided parameters</p>;
+  }
+
+  return (
+    <ItemsTable
+      items={data!.bestOfferings || []}
+    />
+  );
 }
 
 export default CalculatorPage

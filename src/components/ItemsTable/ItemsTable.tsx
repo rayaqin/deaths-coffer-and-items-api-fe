@@ -293,6 +293,10 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
     minute: "2-digit",
   })
 
+  if(!items?.length) {
+    return null
+  }
+
   const grandExchangeLastUpdate =
     items && items[0] && formatter.format(new Date(items[0]["lastGrandExchangeUpdate"]))
   const runeLiteLastUpdate =
