@@ -8,6 +8,7 @@ import BurgerMenu from "./components/BurgerMenu/BurgerMenu"
 import MenuDrawer from "./components/MenuDrawer/MenuDrawer"
 import { QueryClient, QueryClientProvider } from "react-query"
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary"
+import BuyMeCoffee from "./components/BuyMeCoffee/BuyMeCoffee"
 
 const App: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
@@ -53,6 +54,7 @@ const App: React.FC = () => {
           ]}
         />
         <LightToggle toggleFn={toggleTheme} />
+        <BuyMeCoffee />
         <QueryClientProvider client={queryClient}>
           <Outlet />
         </QueryClientProvider>

@@ -4,13 +4,16 @@ import { useItemsQuery } from "../../utils/hooks"
 import { Triangle } from "react-loader-spinner"
 import { GiOpenChest } from "react-icons/gi"
 import ItemsTable from "../../components/ItemsTable/ItemsTable"
+import { appendThemeClass, useTheme } from "../../utils/ThemeContext"
 
 
 const ItemsPage: React.FC = () => {
   const apiURL: string = import.meta.env.VITE_DEATHS_COFFER_API_URL
+  const { theme } = useTheme()
 
   const { data, error, isLoading } = useItemsQuery(apiURL + "items")
   //const { data, error, isLoading } = useItemsQueryDummy(apiURL + "items")
+
 
 
   if (isLoading)
@@ -31,7 +34,7 @@ const ItemsPage: React.FC = () => {
     return (
       <div className="items-page-outer-shell loading">
         <div
-        className="no-results-message"
+        className={appendThemeClass("no-results-message", theme)}
         >
           <GiOpenChest size={56} style={{ margin: "2rem" }} />
           <span>The api did not return meaningful results</span>
