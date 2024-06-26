@@ -14,7 +14,7 @@
   color: white;
   transition: all 0.3s ease-in-out;
   z-index: 999;
-  background-color: $color-deep-dark;
+  background-color: rgba($color-deep-dark, 0.6);
   padding: 0.5rem;
   border-radius: 1rem;
 
@@ -31,7 +31,7 @@
     &:hover {
       color: rgb(8, 41, 90);
     }
-    background-color: #e4effa;
+    background-color: rgba(#e4effa, 0.6);
   }
 
 
