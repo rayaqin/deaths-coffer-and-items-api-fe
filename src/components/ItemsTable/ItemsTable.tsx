@@ -170,10 +170,16 @@ const CellContainer: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 );
 
 const getCellRender = (header: string, value: string, itemNameToIconPathMap: Record<string, string>) => {
+  const truncateValue = (value: string) => {
+    return value.length > 17 ? `${value.substring(0, 17)}...` : value;
+  };
+
   return (
     <CellContainer>
       {header === "name" && <ImageCell src={itemNameToIconPathMap[value]} alt="-" />}
-      <span className="cell-value">{value}</span>
+      <span className="cell-value" title={value.length > 17 ? value : ""}>
+        {truncateValue(value)}
+      </span>
     </CellContainer>
   );
 };
