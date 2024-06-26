@@ -191,8 +191,6 @@ const rangeFilterFn = (rows, id, filterValue) => {
   })
 }
 
-console.log("initialPageSize: ", initialPageSize)
-
 interface ItemsTableProps {
   items: Item[]
 }
