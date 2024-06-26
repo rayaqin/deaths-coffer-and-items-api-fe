@@ -191,6 +191,8 @@ const rangeFilterFn = (rows, id, filterValue) => {
   })
 }
 
+console.log("initialPageSize: ", initialPageSize)
+
 interface ItemsTableProps {
   items: Item[]
 }
@@ -200,7 +202,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
 }) => {
   const { theme } = useTheme();
 
-  const [selectedPageSize, setSelectedPageSize] = useState(Number(localStorage.getItem("pageSize") ?? 20))
+  const initialPageSize = Number(localStorage.getItem("pageSize") ?? 20)
 
   const defaultColumn = useMemo(
     () => ({
@@ -269,14 +271,15 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
     gotoPage,
     nextPage,
     previousPage,
-    state: { pageIndex },
+    setPageSize,
+    state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
       data: items,
       filterTypes,
       defaultColumn,
-      initialState: { pageIndex: 0, pageSize: selectedPageSize },
+      initialState: { pageIndex: 0, pageSize: initialPageSize },
       enableColumnResizing: true,
     },
     useFilters,
@@ -380,8 +383,8 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
           pageCount={pageCount}
           pageIndex={pageIndex}
           pageOptions={pageOptions}
-          pageSize={selectedPageSize}
-          setPageSize={setSelectedPageSize}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
         />
       )}
     </section>
