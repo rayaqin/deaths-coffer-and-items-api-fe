@@ -67,6 +67,8 @@ export const useCalculateDeathsCofferQuery = () => {
     mutate(payload);
   };
 
+  console.log("hook returning: ", data)
+
   return { data: data, isLoading, error, refetch };
 };
 

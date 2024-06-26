@@ -129,6 +129,8 @@ function CalculatorPageContent({ isLoading, error, data = null }: CalculatorPage
     return <p>No items found with the provided parameters</p>;
   }
 
+  console.log("calc page wants to render items table with data: ", data);
+
   return (
     <ItemsTable
       items={data!.bestOfferings || []}
