@@ -294,9 +294,9 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
   })
 
   const grandExchangeLastUpdate =
-    items && formatter.format(new Date(items[0]["lastGrandExchangeUpdate"]))
+    items && items[0] && formatter.format(new Date(items[0]["lastGrandExchangeUpdate"]))
   const runeLiteLastUpdate =
-    items && formatter.format(new Date(items[0]["lastRuneLiteUpdate"]))
+    items && items[0] && formatter.format(new Date(items[0]["lastRuneLiteUpdate"]))
 
   return (
     <section className={appendThemeClass("items-table-outer-shell", theme)}>
