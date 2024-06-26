@@ -269,7 +269,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
     gotoPage,
     nextPage,
     previousPage,
-    state: { pageIndex, pageSize },
+    state: { pageIndex },
   } = useTable(
     {
       columns,
@@ -380,7 +380,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
           pageCount={pageCount}
           pageIndex={pageIndex}
           pageOptions={pageOptions}
-          pageSize={pageSize}
+          pageSize={selectedPageSize}
           setPageSize={setSelectedPageSize}
         />
       )}
