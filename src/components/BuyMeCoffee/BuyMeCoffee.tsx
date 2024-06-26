@@ -11,7 +11,7 @@ const BuyMeCoffee: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIsWiggling(prev => !prev);
-    }, 7000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
