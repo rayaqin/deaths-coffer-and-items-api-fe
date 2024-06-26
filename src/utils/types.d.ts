@@ -1,6 +1,6 @@
-export type ThemeType = 'dark' | 'light'
+type ThemeType = 'dark' | 'light'
 
-export type MenuOption = {
+type MenuOption = {
   id: string
   displayText: string
   linksTo: string
@@ -47,4 +47,26 @@ type Offering = {
 
 type CalculateDeathsCofferQueryResponse = {
   bestOfferings: Offering[];
+};
+
+type FilterState = {
+  id: string;
+  label: string;
+  applied: boolean;
+  value: number;
+}
+
+type CombinedFilterState = Record<string, FilterState>;
+
+
+export {
+  ThemeType,
+  MenuOption,
+  Item,
+  ItemsResponse,
+  DeathsCofferRequestBody,
+  Offering,
+  CalculateDeathsCofferQueryResponse,
+  FilterState,
+  CombinedFilterState,
 };

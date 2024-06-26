@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { appendThemeClass, useTheme } from "../../utils/ThemeContext"
 import "./CalculatorPage.scss"
-import { useQuery } from "react-query"
 import ItemsTable from "../../components/ItemsTable/ItemsTable"
 import { Triangle } from "react-loader-spinner"
 import { GiOpenChest } from "react-icons/gi"
-import { CalculateDeathsCofferQueryResponse, DeathsCofferRequestBody, Offering } from "../../utils/types"
+import { CalculateDeathsCofferQueryResponse, CombinedFilterState, FilterState } from "../../utils/types"
 import { checkIfRequestBodyIsAllZeros, useCalculateDeathsCofferQuery } from "../../utils/hooks"
-import { useCalculateDeathsCofferQueryDummy } from "../../utils/hooks"
+import Switch from '@mui/material/Switch';
+import { defaultFilterStates, getFiltersToApply } from "../../utils/helpers"
+import FilterStateInput from "../../components/FilterStateInput/FilterStateInput"
+//import { useCalculateDeathsCofferQueryDummy } from "../../utils/hooks"
 
 const CalculatorPage: React.FC = () => {
   const { theme } = useTheme()
-  const [minimumOfferingValue, setMinimumOfferingValue] = useState<number>(0)
-  const [maximumPrice, setMaximumPrice] = useState<number>(0)
-  const [minimumTradeVolume, setMinimumTradeVolume] = useState<number>(0)
+
+  const [combinedFilterState, setCombinedFilterState] = useState<CombinedFilterState>(defaultFilterStates)
 
   /*const {
     data,
@@ -31,14 +32,9 @@ const CalculatorPage: React.FC = () => {
 
   const handleCalculate = async () => {
     
-    const body = {
-      minimumOfferingValue,
-      maximumPrice,
-      minimumTradeVolume,
-    }
-    if (!checkIfRequestBodyIsAllZeros(body)) {
-      refetch(body)
-    }
+    const body = getFiltersToApply(combinedFilterState);
+
+    refetch(body)
   }
 
   const handleKeyUp = (e: React.KeyboardEvent) => {
@@ -47,44 +43,48 @@ const CalculatorPage: React.FC = () => {
     }
   };
 
+  const updateFilterStateValue = (id: string, value: number) => {
+    setCombinedFilterState(prevState => ({
+      ...prevState,
+      [id]: {
+        ...prevState[id],
+        value,
+      },
+    }));
+  }
+
+  const updateFilterStateApplied = (id: string) => {
+    setCombinedFilterState(prevState => ({
+      ...prevState,
+      [id]: {
+        ...prevState[id],
+        applied: !prevState[id].applied,
+      },
+    }));
+  }
+
   return (
     <div className={`calculator-page-outer-shell ${appendThemeClass(theme)}`}>
       <div className="inner-shell">
         <fieldset onKeyUp={handleKeyUp}>
-          <div className="input-wrapper">
-            <label htmlFor="minimumOfferingValue">Min. Offering Value</label>
-            <input
-              id="minimumOfferingValue"
-              type="number"
-              value={minimumOfferingValue}
-              onChange={(e) => setMinimumOfferingValue(Number(e.target.value))}
-              placeholder="Minimum Offering Value"
+          {Object.keys(combinedFilterState).map((key) => (
+            <FilterStateInput
+              key={key}
+              filterStateData={combinedFilterState[key]}
+              onValueChange={updateFilterStateValue}
+              onAppliedChange={updateFilterStateApplied}
             />
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="maximumPrice">Max. Price</label>
-            <input
-              id="maximumPrice"
-              type="number"
-              value={maximumPrice}
-              onChange={(e) => setMaximumPrice(Number(e.target.value))}
-              placeholder="Maximum Price"
-            />
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="minimumTradeVolume">Min. Trade Volume</label>
-            <input
-              id="minimumTradeVolume"
-              type="number"
-              value={minimumTradeVolume}
-              onChange={(e) => setMinimumTradeVolume(Number(e.target.value))}
-              placeholder="Minimum Trade Volume"
-            />
-          </div>
-          <button onClick={handleCalculate}>Calculate</button>
+          ))}
+          <button style={{ marginBottom: "30px" }} onClick={handleCalculate}>
+            Calculate
+          </button>
         </fieldset>
         <div className="calculated-items">
-          <CalculatorPageContent isLoading={isLoading} error={error} data={data} />
+          <CalculatorPageContent
+            isLoading={isLoading}
+            error={error}
+            data={data}
+          />
         </div>
       </div>
     </div>
